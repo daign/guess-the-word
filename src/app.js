@@ -1,8 +1,15 @@
 var app = new Vue( {
   el: '#app',
   data: {
-    targetWords: null,
+    wordList: null,
     allowedWords: null,
+    difficulty: 1,
+    difficultyOptions: [
+      { value: 1, text: 'Einfach' },
+      { value: 5, text: 'Fortgeschritten' }
+    ],
+    wordCount: null,
+    targetWords: null,
     target: null,
     guess: '',
     error: null,
@@ -12,11 +19,11 @@ var app = new Vue( {
   },
   mounted: function () {
     // Load and check word list.
-    var wordList = window.wordList;
+    this.wordList = window.wordList;
 
-    wordList = wordList.map( entry => [ entry[ 0 ].toLowerCase(), entry[ 1 ] ] );
+    this.wordList = this.wordList.map( entry => [ entry[ 0 ].toLowerCase(), entry[ 1 ] ] );
 
-    wordList = wordList.filter( entry => {
+    this.wordList = this.wordList.filter( entry => {
       if ( entry[ 0 ].length !== 5 ) {
         console.log( `removed ${entry[ 0 ].toUpperCase()} from word list because of wrong length` );
         return false;
@@ -28,10 +35,8 @@ var app = new Vue( {
       }
     } );
 
-    var difficulty = 5;
-    var targetWords = wordList.filter( entry => entry[ 1 ] <= difficulty );
-    this.targetWords = targetWords.map( entry => entry[ 0 ] );
-    this.allowedWords = wordList.map( entry => entry[ 0 ] );
+    this.allowedWords = this.wordList.map( entry => entry[ 0 ] );
+    this.applyDifficulty();
 
     // Prepare initial game.
     this.chooseWord();
@@ -49,6 +54,23 @@ var app = new Vue( {
 
       this.chooseWord();
       this.initializeMarkers();
+    },
+
+    /**
+     * Apply the difficulty by creating a new targetWords list.
+     */
+    applyDifficulty: function () {
+      var targetWords = this.wordList.filter( entry => entry[ 1 ] <= this.difficulty );
+      this.targetWords = targetWords.map( entry => entry[ 0 ] );
+      this.wordCount = this.targetWords.length;
+    },
+
+    /**
+     * Change the difficulty and start a new game.
+     */
+    changeDifficulty: function () {
+      this.applyDifficulty();
+      this.newGame();
     },
 
     /**
