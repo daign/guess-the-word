@@ -5,11 +5,24 @@ body {
   font-size: x-large;
   font-weight: bold;
 }
-.letter {
+.history .letter {
   width: 30px;
   height: 30px;
   display: inline-block;
   margin: 5px;
+  text-align: center;
+  user-select: none;
+}
+.alphabet {
+  font-size: large;
+  font-weight: bold;
+  margin-bottom: 5px;
+}
+.alphabet .letter {
+  width: 22px;
+  height: 22px;
+  display: inline-block;
+  margin: 2px;
   text-align: center;
   user-select: none;
 }

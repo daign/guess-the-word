@@ -21,6 +21,13 @@
       </ul>
     </div>
 
+    Merkliste
+    <div v-if="markers" class="alphabet">
+      <div v-for="c in Object.keys( markers )"
+        v-bind:class="{ letter: true, wrong: markers[ c ] === 1, right: markers[ c ] === 2 }"
+        v-on:click="switchMarker( c )">{{ c.toUpperCase() }}</div>
+    </div>
+
     <div v-if="!solution">
       <input v-model="guess" type="text"></input>
       <button v-on:click="checkGuess">Tipp abgeben</button>
