@@ -38,7 +38,7 @@
     </div>
 
     <div v-if="!solution">
-      <input v-model="guess" type="text"></input>
+      <input v-model="guess" type="text" ref="guessInput"></input>
       <button v-on:click="checkGuess">Tipp abgeben</button>
       <button v-on:click="giveUp">Auflösen</button>
     </div>

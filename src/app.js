@@ -42,6 +42,14 @@ var app = new Vue( {
     // Prepare initial game.
     this.chooseWord();
     this.initializeMarkers();
+
+    // Call checkGuess on Enter.
+    this.$refs[ 'guessInput' ].addEventListener( 'keyup', event => {
+      if ( event.keyCode === 13 ) {
+        event.preventDefault();
+        this.checkGuess();
+      }
+    } );
   },
   methods: {
     /**
@@ -121,6 +129,8 @@ var app = new Vue( {
 
       if ( this.target === guess ) {
         this.solution = `Richtig, die Lösung ist ${ this.target.toUpperCase()}. (${this.history.length} Versuche)`;
+      } else {
+        this.$refs[ 'guessInput' ].focus();
       }
     },
 
@@ -137,6 +147,7 @@ var app = new Vue( {
      */
     switchMarker: function ( letter ) {
       this.markers[ letter ] = ( this.markers[ letter ] + 1 ) % 3;
+      this.$refs[ 'guessInput' ].focus();
     },
 
     /**
