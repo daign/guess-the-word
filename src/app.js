@@ -5,8 +5,9 @@ var app = new Vue( {
     allowedWords: null,
     difficulty: 1,
     difficultyOptions: [
-      { value: 1, text: 'Einfach' },
-      { value: 5, text: 'Fortgeschritten' }
+      { value: 0, text: 'Einfach' },
+      { value: 1, text: 'Fortgeschritten' },
+      { value: 2, text: 'Profi' }
     ],
     wordCount: null,
     targetWords: null,
