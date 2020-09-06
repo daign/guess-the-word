@@ -5,9 +5,9 @@ var app = new Vue( {
     allowedWords: null,
     difficulty: 1,
     difficultyOptions: [
-      { value: 0, text: 'Einfach' },
-      { value: 1, text: 'Fortgeschritten' },
-      { value: 2, text: 'Profi' }
+      { value: 0, text: 'Easy' },
+      { value: 1, text: 'Advanced' },
+      { value: 2, text: 'Hard' }
     ],
     wordCount: null,
     targetWords: null,
@@ -112,17 +112,17 @@ var app = new Vue( {
       var guess = this.guess.toLowerCase();
 
       if ( guess.length !== 5 ) {
-        this.error = { text: guess.toUpperCase(), reason: 'Fehler: Länge ist nicht 5.' };
+        this.error = { text: guess.toUpperCase(), reason: 'Error: length is not 5.' };
         return;
       }
 
       if ( this.hasDoubleLetters( guess ) ) {
-        this.error = { text: guess.toUpperCase(), reason: 'Fehler: Doppelte Buchstaben.' };
+        this.error = { text: guess.toUpperCase(), reason: 'Error: double letters.' };
         return;
       }
 
       if ( this.allowedWords.indexOf( guess ) === -1 ) {
-        this.error = { text: guess.toUpperCase(), reason: 'Fehler: Unbekanntes Wort.' };
+        this.error = { text: guess.toUpperCase(), reason: 'Error: unknown word.' };
         return;
       }
 
@@ -131,7 +131,7 @@ var app = new Vue( {
       this.guess = '';
 
       if ( this.target === guess ) {
-        this.solution = `Richtig, die Lösung ist ${ this.target.toUpperCase()}. (${this.history.length} Versuche)`;
+        this.solution = `Correct, the solution is ${ this.target.toUpperCase()}. (${this.history.length} tries)`;
       } else {
         this.$refs[ 'guessInput' ].focus();
       }
@@ -142,7 +142,7 @@ var app = new Vue( {
      */
     giveUp: function () {
       this.error = null;
-      this.solution = `Die Lösung ist ${ this.target.toUpperCase()}.`;
+      this.solution = `The solution is ${ this.target.toUpperCase()}.`;
     },
 
     /**

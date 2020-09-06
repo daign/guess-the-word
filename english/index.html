@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <title>Guess the word</title>
+  <link type="text/css" href="app.css" rel="stylesheet" />
+  <script src="wordList.js"></script>
+  <script src="../lib/vue.min.js"></script>
+</head>
+<body>
+  <div id="app">
+    <h1>Guess the word</h1>
+
+    <div>
+      <ul>
+        <li>We are looking for a word with 5 letters.</li>
+        <li>For every guess the number of correct letters is returned.</li>
+        <li>Every guess must be a valid word.</li>
+        <li>Words with double letters are excluded.</li>
+      </ul>
+    </div>
+
+    <div>
+      Difficulty:
+      <select v-model="difficulty" @change="changeDifficulty()">
+        <option v-for="o in difficultyOptions" v-bind:value="o.value">
+          {{ o.text }}
+        </option>
+      </select>
+      ({{ wordCount }} words)
+    </div>
+
+    Bookmarks
+    <div v-if="markers" class="alphabet">
+      <div v-for="c in Object.keys( markers )"
+        v-bind:class="{ letter: true, wrong: markers[ c ] === 1, right: markers[ c ] === 2 }"
+        v-on:click="switchMarker( c )">{{ c.toUpperCase() }}</div>
+    </div>
+
+    <div v-if="!solution">
+      <input v-model="guess" type="text" ref="guessInput"></input>
+      <button v-on:click="checkGuess">Submit guess</button>
+      <button v-on:click="giveUp">Show solution</button>
+    </div>
+
+    <div v-if="solution">
+      {{ solution }}
+      <button v-on:click="newGame">New game</button>
+    </div>
+
+    <div v-if="error">{{ error.reason }} ({{ error.text }})</div>
+
+    <div v-for="entry in history" class="history">
+      <div v-for="c in entry.text"
+        v-bind:class="{ letter: true, wrong: markers[ c ] === 1, right: markers[ c ] === 2 }"
+        v-on:click="switchMarker( c )">{{ c.toUpperCase() }}</div>
+      <div class="letter score">{{ entry.score }}</div>
+    </div>
+  </div>
+  <script src="app.js"></script>
+</body>
+</html>
