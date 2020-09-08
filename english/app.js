@@ -3,7 +3,7 @@ var app = new Vue( {
   data: {
     wordList: null,
     allowedWords: null,
-    difficulty: 1,
+    difficulty: 0,
     difficultyOptions: [
       { value: 0, text: 'Easy' },
       { value: 1, text: 'Advanced' },
