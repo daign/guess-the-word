@@ -7,54 +7,70 @@
   <script src="wordList.js"></script>
   <script src="../lib/vue.min.js"></script>
 </head>
-<body>
+<body class="appFont">
   <div id="app">
-    <h1>Wörter raten</h1>
+    <div class="menuContainer">
+      <div
+        v-bind:class="{ menu: true, title: true, focus: !showHelp }"
+        v-on:click="setShowHelp( false )">Wörter raten
+      </div>
+      <div
+        v-bind:class="{ menu: true, focus: showHelp }"
+        v-on:click="setShowHelp( true )">Hilfe
+      </div>
+    </div>
 
-    <div>
+    <div v-bind:class="{ content: true, hidden: !showHelp }">
+      Anleitung
       <ul>
         <li>Gesucht ist ein Wort mit 5 Buchstaben.</li>
         <li>Für jeden Tipp erfährst du die Anzahl der richtigen Buchstaben.</li>
         <li>Jeder Tipp muss ein valides Wort sein.</li>
         <li>Wörter mit doppelten Buchstaben sind ausgeschlossen.</li>
       </ul>
+
+      <a href="https://github.com/daign/guess-the-word">Über dieses Projekt</a>
     </div>
 
-    <div>
-      Schwierigkeit:
-      <select v-model="difficulty" @change="changeDifficulty()">
-        <option v-for="o in difficultyOptions" v-bind:value="o.value">
-          {{ o.text }}
-        </option>
-      </select>
-      ({{ wordCount }} Wörter)
+    <div v-bind:class="{ content: true, hidden: showHelp }">
+      <div>
+        Schwierigkeit:
+        <select v-model="difficulty" @change="changeDifficulty()" class="appFont">
+          <option v-for="o in difficultyOptions" v-bind:value="o.value">
+            {{ o.text }}
+          </option>
+        </select>
+        ({{ wordCount }} Wörter)
+      </div>
+
+      Merkliste
+      <div v-if="markers" class="alphabet">
+        <div v-for="c in Object.keys( markers )"
+          v-bind:class="{ letter: true, wrong: markers[ c ] === 1, right: markers[ c ] === 2 }"
+          v-on:click="switchMarker( c )">{{ c.toUpperCase() }}</div>
+      </div>
+
+      <div v-bind:class="{ hidden: solution }">
+        <input v-model="guess" type="text" ref="guessInput" class="appFont" size="10"></input>
+        <button v-on:click="checkGuess" class="appFont">Tipp abgeben</button>
+        <button v-on:click="giveUp" class="appFont">Auflösen</button>
+      </div>
+
+      <div v-bind:class="{ hidden: !solution }">
+        {{ solution }}
+        <button v-on:click="newGame" class="appFont">Neues Spiel</button>
+      </div>
+
+      <div v-if="error">{{ error.reason }} ({{ error.text }})</div>
     </div>
 
-    Merkliste
-    <div v-if="markers" class="alphabet">
-      <div v-for="c in Object.keys( markers )"
-        v-bind:class="{ letter: true, wrong: markers[ c ] === 1, right: markers[ c ] === 2 }"
-        v-on:click="switchMarker( c )">{{ c.toUpperCase() }}</div>
-    </div>
-
-    <div v-if="!solution">
-      <input v-model="guess" type="text" ref="guessInput"></input>
-      <button v-on:click="checkGuess">Tipp abgeben</button>
-      <button v-on:click="giveUp">Auflösen</button>
-    </div>
-
-    <div v-if="solution">
-      {{ solution }}
-      <button v-on:click="newGame">Neues Spiel</button>
-    </div>
-
-    <div v-if="error">{{ error.reason }} ({{ error.text }})</div>
-
-    <div v-for="entry in history" class="history">
-      <div v-for="c in entry.text"
-        v-bind:class="{ letter: true, wrong: markers[ c ] === 1, right: markers[ c ] === 2 }"
-        v-on:click="switchMarker( c )">{{ c.toUpperCase() }}</div>
-      <div class="letter score">{{ entry.score }}</div>
+    <div v-bind:class="{ historyContainer: true, hidden: showHelp }">
+      <div v-for="entry in history" class="history">
+        <div v-for="c in entry.text"
+          v-bind:class="{ letter: true, wrong: markers[ c ] === 1, right: markers[ c ] === 2 }"
+          v-on:click="switchMarker( c )">{{ c.toUpperCase() }}</div>
+        <div class="letter score">{{ entry.score }}</div>
+      </div>
     </div>
   </div>
   <script src="app.js"></script>

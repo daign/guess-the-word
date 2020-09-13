@@ -16,7 +16,8 @@ var app = new Vue( {
     error: null,
     history: [],
     solution: null,
-    markers: null
+    markers: null,
+    showHelp: false
   },
   mounted: function () {
     // Load and check word list.
@@ -174,6 +175,13 @@ var app = new Vue( {
         score += ( chars[ i ] === chars[ i + 1 ] );
       }
       return score;
+    },
+
+    /**
+     * Show or hide the help.
+     */
+    setShowHelp: function ( b ) {
+      this.showHelp = b;
     }
   }
 } );
