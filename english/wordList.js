@@ -9510,7 +9510,7 @@ window.wordList = [
   [ 'zogan', 2 ],
   [ 'zoism', 2 ],
   [ 'zoist', 2 ],
-  [ 'zombi', 0 ],
+  [ 'zombi', 2 ],
   [ 'zonal', 2 ],
   [ 'zonar', 2 ],
   [ 'zonda', 2 ],
