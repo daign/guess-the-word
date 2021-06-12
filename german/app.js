@@ -111,8 +111,40 @@ var app = new Vue( {
       this.error = null;
 
       var guess = this.guess.toLowerCase();
+      var len = guess.length;
+      var one = ( len > 0 ) ? guess[ 0 ] : null;
+      var two = ( len > 1 ) ? guess[ 1 ] : null;
 
-      if ( guess.length !== 5 ) {
+      // Command for resetting the markers.
+      if ( len === 1 && one === '=' ) {
+        this.initializeMarkers();
+        this.guess = '';
+        return;
+      }
+
+      // Commands for setting single markers.
+      if ( len === 1 && one in this.markers ) {
+        this.switchMarker( one );
+        this.guess = '';
+        return;
+      }
+      if ( len === 2 && one in this.markers && two === '=' ) {
+        this.markers[ one ] = 0;
+        this.guess = '';
+        return;
+      }
+      if ( len === 2 && one in this.markers && two === '-' ) {
+        this.markers[ one ] = 1;
+        this.guess = '';
+        return;
+      }
+      if ( len === 2 && one in this.markers && two === '+' ) {
+        this.markers[ one ] = 2;
+        this.guess = '';
+        return;
+      }
+
+      if ( len !== 5 ) {
         this.error = { text: guess.toUpperCase(), reason: 'Fehler: Länge ist nicht 5.' };
         return;
       }
@@ -133,8 +165,6 @@ var app = new Vue( {
 
       if ( this.target === guess ) {
         this.solution = `Richtig, die Lösung ist ${ this.target.toUpperCase()}. (${this.history.length} Versuche)`;
-      } else {
-        this.$refs[ 'guessInput' ].focus();
       }
     },
 
@@ -151,7 +181,6 @@ var app = new Vue( {
      */
     switchMarker: function ( letter ) {
       this.markers[ letter ] = ( this.markers[ letter ] + 1 ) % 3;
-      this.$refs[ 'guessInput' ].focus();
     },
 
     /**
