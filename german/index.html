@@ -48,6 +48,7 @@
         <div v-for="c in Object.keys( markers )"
           v-bind:class="{ letter: true, wrong: markers[ c ] === 1, right: markers[ c ] === 2 }"
           v-on:click="switchMarker( c )">{{ c.toUpperCase() }}</div>
+        <div v-on:click="initializeMarkers()" class="reset">reset</div>
       </div>
 
       <div v-bind:class="{ hidden: solution }">

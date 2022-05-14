@@ -74,6 +74,12 @@ body {
   text-align: center;
   user-select: none;
 }
+.alphabet .reset {
+  height: 30px;
+  display: inline-block;
+  margin: 2px;
+  user-select: none;
+}
 .right {
   background: lawngreen;
 }
