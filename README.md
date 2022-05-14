@@ -4,3 +4,5 @@
 * [Guess the word game (English)](http://daign.github.com/guess-the-word/english)
 
 Licensed under MIT License
+
+![screenshot](./screenshot.png)
